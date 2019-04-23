@@ -25,18 +25,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val fileName = et_name
-        val fileData = et_data
-        val saveButton = bt_save
-        val viewButton = bt_read
 
-
-        saveButton.setOnClickListener{
-            myExternalFile = File(getExternalFilesDir(filepath), fileName.text.toString())
+        bt_save.setOnClickListener{
+            myExternalFile = File(getExternalFilesDir(filepath), et_name.text.toString())
 
             try{
                 val fileOutPutStream = FileOutputStream(myExternalFile)
-                fileOutPutStream.write(fileData.text.toString().toByteArray())
+                fileOutPutStream.write(et_data.text.toString().toByteArray())
                 fileOutPutStream.close()
             }catch (e:IOException){
                 e.printStackTrace()
@@ -45,11 +40,12 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext,"Info Guardada",Toast.LENGTH_SHORT).show()
         }
 
-        viewButton.setOnClickListener{
-            myExternalFile = File(getExternalFilesDir(filepath), fileName.text.toString())
+        bt_read.setOnClickListener{
+            myExternalFile = File(getExternalFilesDir(filepath), et_name.text.toString())
 
-            val filename = fileName.text.toString()
+            val filename = et_name.text.toString()
             myExternalFile = File(getExternalFilesDir(filepath),filename)
+
             if(filename.trim()!=""){
                 var fileInputStream = FileInputStream(myExternalFile)
                 var inputStreamReader = InputStreamReader(fileInputStream)
@@ -65,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (!isExternalStorageAvailable || isExternalStorageReadOnly) {
-            saveButton.isEnabled = false
+            bt_save.isEnabled = false
         }
     }
 
